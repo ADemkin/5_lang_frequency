@@ -80,20 +80,20 @@ def top_results(word_dict, filename, how_many=10, detailed=True):
 
 def main():
     if len(sys.argv) > 1:
-        file = sys.argv[1:]
-        file = file[0]
-        if os.path.exists(file) == False:
+        path = sys.argv[1:]
+        path = path[0]
+        if os.path.exists(path) == False:
             # convert filename to path if launched with filename.txt without path
-            file = os.path.join(os.getcwd(), file)
+            path = os.path.join(os.getcwd(), path)
         # if launched with full path, go straight to analysis.
         # load file into string
-        text = load_data(file)
+        text = load_data(path)
         # filter string
         text = filter_string(text)
         # count words
         result = get_most_frequent_words(text)
         # print results
-        top_results(result, file, 10, False)
+        top_results(result, path, 10, False)
     else:
         print("Usage: lang_frequency.py [text file]")
 
