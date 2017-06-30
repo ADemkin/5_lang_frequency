@@ -7,15 +7,12 @@ Anton Demkin, 2017
 antondemkin@yandex.ru
 '''
 
-
 # import regular expressions
 import re
 # module needed for sorting. Dunno what it is.
 import operator
 import sys
 import os
-
-
 
 
 def load_data(filepath):
@@ -55,14 +52,15 @@ def get_most_frequent_words(string):
         # increase key count if word already in dict
         elif word in word_counter:
             word_counter[word] += 1
-        
-    return word_counter
     
+    return word_counter
+
+
 def top_results(word_dict, filename, number_of_top_results=10):
     '''
     Prints most frequently seen words in a given words dictionary.
     '''
-
+    
     # sort dict keys by item
     sorted_result = sorted(word_dict.items(), key=operator.itemgetter(1))
     sorted_result.reverse()
@@ -70,15 +68,15 @@ def top_results(word_dict, filename, number_of_top_results=10):
     print("Frequency analysis for %s:" % filename)
     for i in range(number_of_top_results):
         if sorted_result[i]:
-            print("%s: %d" % (sorted_result[i][0], sorted_result[i][1] ))
-    
+            print("%s: %d" % (sorted_result[i][0], sorted_result[i][1]))
+
 
 def main():
     if len(sys.argv) > 1:
         file = sys.argv[1:]
         file = file[0]
         path = os.path.join(os.getcwd(), file)
-        #print(file)
+        # print(file)
         text = load_data(path)
         text = filter_string(text)
         result = get_most_frequent_words(text)
@@ -89,7 +87,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
-
-
-
