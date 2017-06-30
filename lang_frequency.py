@@ -56,34 +56,48 @@ def get_most_frequent_words(string):
     return word_counter
 
 
-def top_results(word_dict, filename, number_of_top_results=10):
+def top_results(word_dict, filename, how_many=10, detailed=True):
     '''
     Prints most frequently seen words in a given words dictionary.
+    :keyword word_dict: dictionary
+    :keyword filename: name of the file, only for readability purpose.
+    :keyword how_many: how many top results you want to print
+    :keyword detailed: prints how many times words has been seen if true. Only words if false.
     '''
     
     # sort dict keys by item
-    sorted_result = sorted(word_dict.items(), key=operator.itemgetter(1))
-    sorted_result.reverse()
+    result = sorted(word_dict.items(), key=operator.itemgetter(1))
+    result.reverse()
     # print top results
     print("Frequency analysis for %s:" % filename)
-    for i in range(number_of_top_results):
-        if sorted_result[i]:
-            print("%s: %d" % (sorted_result[i][0], sorted_result[i][1]))
+    for i in range(how_many):
+        if result[i]:
+            if detailed:
+                print("%s: %d" % (result[i][0], result[i][1]))
+            else:
+                print("%s" % result[i][0])
 
 
 def main():
     if len(sys.argv) > 1:
         file = sys.argv[1:]
         file = file[0]
-        path = os.path.join(os.getcwd(), file)
-        # print(file)
-        text = load_data(path)
+        if os.path.exists(file) == False:
+            # convert filename to path if launched with filename.txt without path
+            file = os.path.join(os.getcwd(), file)
+        # if launched with full path, go straight to analysis.
+        # load file into string
+        text = load_data(file)
+        # filter string
         text = filter_string(text)
+        # count words
         result = get_most_frequent_words(text)
-        top_results(result, file, 10)
+        # print results
+        top_results(result, file, 10, False)
     else:
         print("Usage: lang_frequency.py [text file]")
 
 
 if __name__ == '__main__':
     main()
+  
