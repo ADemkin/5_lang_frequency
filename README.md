@@ -1,6 +1,12 @@
 # Frequency Analysis of Words
 
-[TODO. There will be project description]
+This script runs a frequency analysis for words in a given text. It returns top 10 most frequent words and they appearance frequancy.
+
+Usage: lang_frequancy.py [filename]
+
+Anton Demkin, 2017
+
+antondemkin@yandex.ru
 
 # Project Goals
 
