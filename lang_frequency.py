@@ -95,9 +95,8 @@ def main():
         # print results
         top_results(result, path, 10, False)
     else:
-        print("Usage: lang_frequency.py [text file]")
+        print("Usage: lang_frequency.py [text file or path]")
 
 
 if __name__ == '__main__':
     main()
-  
