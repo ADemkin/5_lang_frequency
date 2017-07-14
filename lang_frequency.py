@@ -1,99 +1,76 @@
 '''
-This script runs a frequency analysis for words in a given text. It returns top 10 most frequent words and they appearance frequancy.
+This script runs a frequency analysis for words in a given text.
+It returns top 10 most frequent words and they appearance frequency.
 
-Usage: lang_frequancy.py [filename]
+Usage: lang_frequency.py [filename]
 
 Anton Demkin, 2017
 antondemkin@yandex.ru
 '''
 
-# import regular expressions
+
 import re
-# module needed for sorting. Dunno what it is.
 import operator
 import sys
 import os
+import collections
 
 
 def load_data(filepath):
-    '''
-    Load a text file and return in like a string
-    '''
-    big_text = ''
-    with open(filepath) as text:
-        for line in text:
-            big_text += line
-    return big_text
+    # (devman) load whole file
+    with open(filepath) as file:
+        text = file.read()
+    return text
 
 
-def filter_string(string):
-    '''
-    Return a string without any special symbols and lower case only.
-    '''
-    # remove all special symbols
-    s = re.sub("[^A-Za-z0-9']+", " ", string)
-    # convert to lower case
-    s = s.lower()
-    return s
+def keep_only_lowercase_letters(string):
+    # remove all special symbols and convert to lowercase
+    text = re.sub("[^A-Za-z0-9']+", " ", string)
+    text = text.lower()
+    return text
 
 
 def get_most_frequent_words(string):
     '''
     Return a dict with all words and word count.
     '''
-    # separate words by spaces
     text = string
+    # separate words by spaces
     words = text.split()
-    word_counter = {}
-    for word in words:
-        # create key if word never seen before
-        if word not in word_counter:
-            word_counter[word] = 1
-        # increase key count if word already in dict
-        elif word in word_counter:
-            word_counter[word] += 1
-    
-    return word_counter
+    # count words
+    return collections.Counter(words)
 
 
-def top_results(word_dict, filename, how_many=10, detailed=True):
+def print_top_results(word_dict, filename, how_many=10, detailed=True):
     '''
     Prints most frequently seen words in a given words dictionary.
-    :keyword word_dict: dictionary
-    :keyword filename: name of the file, only for readability purpose.
-    :keyword how_many: how many top results you want to print
-    :keyword detailed: prints how many times words has been seen if true. Only words if false.
     '''
     
     # sort dict keys by item
-    result = sorted(word_dict.items(), key=operator.itemgetter(1))
-    result.reverse()
+    most_frequent_words = sorted(word_dict.items(), key=operator.itemgetter(1))
+    most_frequent_words.reverse()
+    
     # print top results
-    print("Frequency analysis for %s:" % filename)
     for i in range(how_many):
-        if result[i]:
+        if most_frequent_words[i]:
             if detailed:
-                print("%s: %d" % (result[i][0], result[i][1]))
+                print("Frequency analysis for %s:" % filename)
+                print("%s: %d" % (most_frequent_words[i][0], most_frequent_words[i][1]))
             else:
-                print("%s" % result[i][0])
+                print("%s" % most_frequent_words[i][0])
 
 
 def main():
     if len(sys.argv) > 1:
-        path = sys.argv[1:]
-        path = path[0]
-        if os.path.exists(path) == False:
-            # convert filename to path if launched with filename.txt without path
-            path = os.path.join(os.getcwd(), path)
-        # if launched with full path, go straight to analysis.
-        # load file into string
-        text = load_data(path)
-        # filter string
-        text = filter_string(text)
-        # count words
-        result = get_most_frequent_words(text)
-        # print results
-        top_results(result, path, 10, False)
+        path = sys.argv[1]
+        if not os.path.exists(path):
+            print("%s is not correct path." % str(path))
+        else:
+            text = load_data(path)
+            filtered_text = keep_only_lowercase_letters(text)
+            top_ten_words = get_most_frequent_words(filtered_text)
+            print_top_results(top_ten_words, path, 10, False)
+        
     else:
         print("Usage: lang_frequency.py [text file or path]")
 
