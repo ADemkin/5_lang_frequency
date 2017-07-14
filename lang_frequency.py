@@ -2,7 +2,7 @@
 This script runs a frequency analysis for words in a given text.
 It returns top 10 most frequent words and they appearance frequency.
 
-Usage: lang_frequency.py [filename]
+Usage: lang_frequency.py [path]
 
 Anton Demkin, 2017
 antondemkin@yandex.ru
@@ -72,7 +72,7 @@ def main():
             print_top_results(top_ten_words, path, 10, False)
         
     else:
-        print("Usage: lang_frequency.py [text file or path]")
+        print("Usage: lang_frequency.py [path]")
 
 
 if __name__ == '__main__':
