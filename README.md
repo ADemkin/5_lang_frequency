@@ -1,8 +1,27 @@
 # Frequency Analysis of Words
 
-This script runs a frequency analysis for words in a given text. It returns top 10 most frequent words and they appearance frequancy.
+This script runs a frequency analysis for words in a given text. It returns top 10 most frequent words.
 
-Usage: lang_frequancy.py [filename]
+Usage: 
+```
+python3 lang_frequancy.py [filename]
+```
+
+Example:
+```
+python3 lang_frequancy.py hamlet.txt
+the
+and
+i
+to
+of
+a
+you
+my
+that
+in
+
+```
 
 Anton Demkin, 2017
 
