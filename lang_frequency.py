@@ -1,14 +1,3 @@
-'''
-This script runs a frequency analysis for words in a given text.
-It returns top 10 most frequent words and they appearance frequency.
-
-Usage: lang_frequency.py [path]
-
-Anton Demkin, 2017
-antondemkin@yandex.ru
-'''
-
-
 import re
 import operator
 import sys
@@ -22,7 +11,7 @@ def load_data(filepath):
     return text
 
 
-def keep_only_lowercase_letters(string):
+def filter_and_convert_words(string):
     # remove all special symbols and convert to lowercase
     text = re.sub("[^A-Za-z0-9']+", " ", string)
     text = text.lower()
@@ -30,34 +19,22 @@ def keep_only_lowercase_letters(string):
 
 
 def get_most_frequent_words(string):
-    '''
-    Return a dict with all words and word count.
-    '''
-    text = string
+    number_of_results = 10
     # separate words by spaces
-    all_words = text.split()
-    # count words
-    return collections.Counter(all_words)
+    all_words = string.split()
+    # count words and return top 10 only
+    return collections.Counter(all_words).most_common(number_of_results)
 
-
-def get_top_ten(word_dict):
-    
-    # sort dict keys by item
-    most_frequent_words = sorted(word_dict.items(), key=operator.itemgetter(1))
-    most_frequent_words.reverse()
-    
-    for word in most_frequent_words[:10]:
-        yield word[0]
 
 
 def main():
     if len(sys.argv) > 1:
         path = sys.argv[1]
         text = load_data(path)
-        filtered_text = keep_only_lowercase_letters(text)
-        top_ten_words = get_most_frequent_words(filtered_text)
-        for word in get_top_ten(top_ten_words):
-            print(word)
+        filtered_text = filter_and_convert_words(text)
+        top_ten_words_count = get_most_frequent_words(filtered_text)
+        for word in top_ten_words_count:
+            print(word[0])
     else:
         print("Usage: lang_frequency.py [path]")
 
