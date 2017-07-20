@@ -1,6 +1,6 @@
 # Frequency Analysis of Words
 
-This script runs a frequency analysis for words in a given text. It returns top 10 most frequent words.
+This script runs a frequency analysis for words in a given text and returns top 10 most frequent words.
 
 Usage: 
 ```
