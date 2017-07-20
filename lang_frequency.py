@@ -11,7 +11,7 @@ def load_data(filepath):
     return text
 
 
-def filter_and_convert_words(string):
+def remove_special_symbols(string):
     # remove all special symbols and convert to lowercase
     text = re.sub("[^A-Za-z0-9']+", " ", string)
     text = text.lower()
@@ -30,13 +30,12 @@ def get_most_frequent_words(string):
 def main():
     if len(sys.argv) > 1:
         path = sys.argv[1]
-        text = load_data(path)
-        filtered_text = filter_and_convert_words(text)
-        top_ten_words_count = get_most_frequent_words(filtered_text)
-        for word in top_ten_words_count:
-            print(word[0])
-    else:
-        print("Usage: lang_frequency.py [path]")
+        if os.path.exists(path):
+            text = load_data(path)
+            filtered_text = remove_special_symbols(text)
+            top_ten_words_count = get_most_frequent_words(filtered_text)
+            for word in top_ten_words_count:
+                print(word[0])
 
 
 if __name__ == '__main__':
